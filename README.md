@@ -1,8 +1,7 @@
 Quasar Crash
 ============
 
-This repo reproduces an issue when using [Quasar](https://github.com/puniverse/quasar) 0.6.0 with
-JDK 8 Streams.
+This repo reproduces an issue when using [Quasar](https://github.com/puniverse/quasar) 0.6.0.
 
 ```
 mvn clean compile exec:exec
@@ -26,55 +25,30 @@ mvn clean compile exec:exec
 [INFO] Compiling 1 source file to /Users/dano/projects/quasar-crash/target/classes
 [INFO]
 [INFO] --- exec-maven-plugin:1.3.2:exec (default-cli) @ quasar-crash ---
-objc[29284]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/bin/java and /Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/libinstrument.dylib. One of the two will be used. Which one is undefined.
-[quasar] ERROR: Unable to instrument class QuasarCrashRepro
-java.lang.IllegalArgumentException: INVOKESPECIAL/STATIC on interfaces require ASM 5
-	at org.objectweb.asm.MethodVisitor.visitMethodInsn(Unknown Source)
-	at org.objectweb.asm.ClassReader.a(Unknown Source)
-	at org.objectweb.asm.ClassReader.b(Unknown Source)
-	at org.objectweb.asm.ClassReader.accept(Unknown Source)
-	at org.objectweb.asm.ClassReader.accept(Unknown Source)
-	at co.paralleluniverse.fibers.instrument.QuasarInstrumentor.instrumentClass(QuasarInstrumentor.java:100)
-	at co.paralleluniverse.fibers.instrument.QuasarInstrumentor.instrumentClass(QuasarInstrumentor.java:81)
-	at co.paralleluniverse.fibers.instrument.JavaAgent$Transformer.transform(JavaAgent.java:187)
-	at sun.instrument.TransformerManager.transform(TransformerManager.java:188)
-	at sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:428)
-	at java.lang.ClassLoader.defineClass1(Native Method)
-	at java.lang.ClassLoader.defineClass(ClassLoader.java:760)
-	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
-	at java.net.URLClassLoader.defineClass(URLClassLoader.java:455)
-	at java.net.URLClassLoader.access$100(URLClassLoader.java:73)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:367)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:361)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:360)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
-	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:308)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
-	at sun.launcher.LauncherHelper.checkAndLoadMain(LauncherHelper.java:495)
-[quasar] ERROR: while transforming QuasarCrashRepro: INVOKESPECIAL/STATIC on interfaces require ASM 5
-java.lang.IllegalArgumentException: INVOKESPECIAL/STATIC on interfaces require ASM 5
-	at org.objectweb.asm.MethodVisitor.visitMethodInsn(Unknown Source)
-	at org.objectweb.asm.ClassReader.a(Unknown Source)
-	at org.objectweb.asm.ClassReader.b(Unknown Source)
-	at org.objectweb.asm.ClassReader.accept(Unknown Source)
-	at org.objectweb.asm.ClassReader.accept(Unknown Source)
-	at co.paralleluniverse.fibers.instrument.QuasarInstrumentor.instrumentClass(QuasarInstrumentor.java:100)
-	at co.paralleluniverse.fibers.instrument.QuasarInstrumentor.instrumentClass(QuasarInstrumentor.java:81)
-	at co.paralleluniverse.fibers.instrument.JavaAgent$Transformer.transform(JavaAgent.java:187)
-	at sun.instrument.TransformerManager.transform(TransformerManager.java:188)
-	at sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:428)
-	at java.lang.ClassLoader.defineClass1(Native Method)
-	at java.lang.ClassLoader.defineClass(ClassLoader.java:760)
-	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
-	at java.net.URLClassLoader.defineClass(URLClassLoader.java:455)
-	at java.net.URLClassLoader.access$100(URLClassLoader.java:73)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:367)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:361)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:360)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
-	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:308)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
-	at sun.launcher.LauncherHelper.checkAndLoadMain(LauncherHelper.java:495)
+objc[29974]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/bin/java and /Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home/jre/lib/libinstrument.dylib. One of the two will be used. Which one is undefined.
+Exception in Fiber "fiber-10000001" If this exception looks strange, perhaps you've forgotten to instrument a blocking method. Run your program with -Dco.paralleluniverse.fibers.verifyInstrumentation=true to catch the culprit!
+java.lang.NullPointerException
+	at co.paralleluniverse.strands.Strand.park(Strand.java:485)
+	at co.paralleluniverse.strands.ConditionSynchronizer.await(ConditionSynchronizer.java:54)
+	at co.paralleluniverse.strands.dataflow.Val.get(Val.java:154)
+	at co.paralleluniverse.fibers.Fiber.get(Fiber.java:1279)
+	at QuasarCrashRepro.getUnchecked(QuasarCrashRepro.java:26)
+	at QuasarCrashRepro.lambda$main$7448ad48$1(QuasarCrashRepro.java:18)
+	at QuasarCrashRepro$$Lambda$1/1513712028.run(Unknown Source)
+	at co.paralleluniverse.strands.SuspendableUtils$VoidSuspendableCallable.run(SuspendableUtils.java:42)
+	at co.paralleluniverse.strands.SuspendableUtils$VoidSuspendableCallable.run(SuspendableUtils.java:30)
+	at co.paralleluniverse.fibers.Fiber.run(Fiber.java:1001)
+Exception in Fiber "fiber-10000001" If this exception looks strange, perhaps you've forgotten to instrument a blocking method. Run your program with -Dco.paralleluniverse.fibers.verifyInstrumentation=true to catch the culprit!
+java.lang.NullPointerException
+	at co.paralleluniverse.strands.Strand.park(Strand.java:485)
+	at co.paralleluniverse.strands.ConditionSynchronizer.await(ConditionSynchronizer.java:54)
+	at co.paralleluniverse.strands.dataflow.Val.get(Val.java:154)
+	at co.paralleluniverse.fibers.Fiber.get(Fiber.java:1279)
+	at QuasarCrashRepro.getUnchecked(QuasarCrashRepro.java:26)
+	at QuasarCrashRepro.lambda$main$7448ad48$1(QuasarCrashRepro.java:18)
+	at QuasarCrashRepro$$Lambda$1/1513712028.run(Unknown Source)
+	at co.paralleluniverse.strands.SuspendableUtils$VoidSuspendableCallable.run(SuspendableUtils.java:42)
+	at co.paralleluniverse.strands.SuspendableUtils$VoidSuspendableCallable.run(SuspendableUtils.java:30)
+	at co.paralleluniverse.fibers.Fiber.run(Fiber.java:1001)
+^C%
 ```
